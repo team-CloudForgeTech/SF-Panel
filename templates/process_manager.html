@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>进程管理</title>
+    <!-- 引入Bulma CSS库 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <style>
+        /* 自定义样式 */
+    </style>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">进程管理</h1>
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-menu">
+                    <div class="navbar-start">
+                        <a href="{{ url_for('index') }}" class="navbar-item">
+                            主页
+                        </a>
+                        <a href="{{ url_for('file_manager') }}" class="navbar-item">
+                            文件管理
+                        </a>
+                        <a href="{{ url_for('process_manager') }}" class="navbar-item">
+                            进程管理
+                        </a>
+                        <a href="{{ url_for('shell_terminal') }}" class="navbar-item">
+                            Shell 终端
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <div id="process-list" class="mt-5"></div>
+        </div>
+    </section>
+
+    <script>
+        async function loadProcesses() {
+            try {
+                const response = await fetch('/api/list-processes');
+                const data = await response.json();
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+                const processList = document.getElementById('process-list');
+                processList.innerHTML = '<ul>';
+                data.processes.forEach(proc => {
+                    processList.innerHTML += `<li>ID: ${proc.pid}, 名称: ${proc.name}</li>`;
+                });
+                processList.innerHTML += '</ul>';
+            } catch (error) {
+                console.error('Error loading processes:', error);
+                alert('加载进程列表时出错。');
+            }
+        }
+
+        // 自动刷新进程列表，每5秒刷新一次
+        setInterval(loadProcesses, 5000);
+
+        // 初始加载进程列表
+        loadProcesses();
+    </script>
+</body>
+</html>

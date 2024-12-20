@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shell 终端</title>
+    <!-- 引入Bulma CSS库 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <style>
+        #output-area {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-top: 20px;
+            height: 300px;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Shell 终端</h1>
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <div class="navbar-start">
+                        <a href="{{ url_for('index') }}" class="navbar-item">
+                            主页
+                        </a>
+                        <a href="{{ url_for('file_manager') }}" class="navbar-item">
+                            文件管理
+                        </a>
+                        <a href="{{ url_for('process_manager') }}" class="navbar-item">
+                            进程管理
+                        </a>
+                        <a href="{{ url_for('shell_terminal') }}" class="navbar-item">
+                            Shell 终端
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="shell-container mt-5">
+                <div class="field is-grouped">
+                    <div class="control is-expanded">
+                        <input class="input" type="text" id="command-input" placeholder="输入命令">
+                    </div>
+                    <div class="control">
+                        <button class="button is-success" id="execute-btn">执行</button>
+                    </div>
+                </div>
+                <div id="output-area"></div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('execute-btn').addEventListener('click', async () => {
+            const commandInput = document.getElementById('command-input');
+            const command = commandInput.value;
+            commandInput.value = '';  // 清空输入框
+
+            if (!command) {
+                alert('未提供命令');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/shell-command', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `command=${encodeURIComponent(command)}`
+                });
+                const data = await response.json();
+                const outputArea = document.getElementById('output-area');
+                outputArea.innerHTML = `<strong>输出:</strong><br>${data.output}<br><strong>错误:</strong><br>${data.error}`;
+            } catch (error) {
+                console.error('Error executing command:', error);
+                alert('执行命令时出错。');
+            }
+        });
+    </script>
+</body>
+</html>
