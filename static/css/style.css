@@ -1,0 +1,86 @@
+/* 侧边栏样式 */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 60px; /* 默认收缩状态 */
+    height: 100%;
+    background-color: #ffffff;
+    border-right: 2px solid #ddd;
+    color: #333;
+    padding-top: 20px;
+    z-index: 1000;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease;
+}
+
+/* 展开时侧边栏 */
+.sidebar.expanded {
+    width: 250px;
+}
+
+/* 侧边栏的链接 */
+.sidebar a {
+    color: #333;
+    text-decoration: none;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    transition: background-color 0.3s ease, padding-left 0.3s ease;
+}
+
+.sidebar a i {
+    margin-right: 15px;
+    font-size: 18px;
+}
+
+/* 收缩时隐藏文字 */
+.sidebar:not(.expanded) a span {
+    display: none;
+}
+
+/* 鼠标悬停时的效果 */
+.sidebar a:hover {
+    background-color: #f4f4f4;
+    padding-left: 30px;
+}
+
+/* 主内容区域样式 */
+.main-content {
+    margin-left: 60px; /* 默认的边距 */
+    padding: 20px;
+    transition: margin-left 0.3s ease, width 0.3s ease;
+}
+
+.main-content.expanded {
+    margin-left: 250px; /* 展开时主内容区域的边距 */
+}
+
+/* 响应式：在屏幕宽度小于768px时隐藏侧边栏的内容，显示切换按钮 */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 0; /* 默认隐藏侧边栏 */
+    }
+
+    .sidebar.expanded {
+        width: 250px; /* 展开时侧边栏 */
+    }
+
+    .main-content {
+        margin-left: 0; /* 默认无左边距 */
+    }
+
+    #sidebar-toggle {
+        display: block; /* 显示切换按钮 */
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 1100;
+    }
+
+    .sidebar a {
+        font-size: 14px;
+        padding: 10px;
+    }
+}

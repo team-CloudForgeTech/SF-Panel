@@ -6,37 +6,24 @@
     <title>进程管理</title>
     <!-- 引入Bulma CSS库 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <style>
-        /* 自定义样式 */
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 <body>
-    <section class="section">
-        <div class="container">
-            <h1 class="title">进程管理</h1>
-            <nav class="navbar" role="navigation" aria-label="main navigation">
-                <div class="navbar-menu">
-                    <div class="navbar-start">
-                        <a href="{{ url_for('index') }}" class="navbar-item">
-                            主页
-                        </a>
-                        <a href="{{ url_for('file_manager') }}" class="navbar-item">
-                            文件管理
-                        </a>
-                        <a href="{{ url_for('process_manager') }}" class="navbar-item">
-                            进程管理
-                        </a>
-                        <a href="{{ url_for('shell_terminal') }}" class="navbar-item">
-                            Shell 终端
-                        </a>
-                    </div>
-                </div>
-            </nav>
 
-            <div id="process-list" class="mt-5"></div>
-        </div>
-    </section>
+    {% include 'partials/sidebar.html' %}
 
+    <div class="main-content" id="mainContent">
+        <section class="section">
+            <div class="container">
+                <h1 class="title">进程管理</h1>
+                <div id="process-list" class="mt-5"></div>
+            </div>
+        </section>
+    </div
+
+    <script>
     <script>
         async function loadProcesses() {
             try {
@@ -64,5 +51,6 @@
         // 初始加载进程列表
         loadProcesses();
     </script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

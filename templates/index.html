@@ -6,79 +6,75 @@
     <title>File Manager</title>
     <!-- 引入Bulma CSS库 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <!-- 引入Chart.js库 -->
+    <!-- 引入FontAwesome图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
 </head>
 <body>
-    <section class="section">
-        <div class="container">
-            <h1 class="title">SFpanel面板</h1>
-            <nav class="navbar" role="navigation" aria-label="main navigation">
-                <div class="navbar-menu">
-                    <div class="navbar-start">
-                        <a href="{{ url_for('file_manager') }}" class="navbar-item">
-                            文件管理
-                        </a>
-                        <a href="{{ url_for('process_manager') }}" class="navbar-item">
-                            进程管理
-                        </a>
-                        <a href="{{ url_for('shell_terminal') }}" class="navbar-item">
-                            Shell 终端
-                        </a>
+
+    {% include 'partials/sidebar.html' %}
+
+    <!-- 主内容区域 -->
+    <div class="main-content" id="mainContent">
+        <section class="section">
+            <div class="container">
+                <h1 class="title">SFpanel面板</h1>
+
+                <div class="status-container mt-5">
+                    <h2 class="subtitle">服务器负载状态</h2>
+                    <div class="columns">
+                        <div class="column is-one-third">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="content">
+                                        <h3>CPU 使用率</h3>
+                                        <canvas id="cpu-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-one-third">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="content">
+                                        <h3>内存 使用率</h3>
+                                        <canvas id="memory-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-one-third">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="content">
+                                        <h3>磁盘 使用率</h3>
+                                        <canvas id="disk-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </nav>
 
-            <div class="status-container mt-5">
-                <h2 class="subtitle">服务器负载状态</h2>
-                <div class="columns">
-                    <div class="column is-one-third">
-                        <div class="card">
-                            <div class="card-content">
-                                <div class="content">
-                                    <h3>CPU 使用率</h3>
-                                    <canvas id="cpu-chart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-one-third">
-                        <div class="card">
-                            <div class="card-content">
-                                <div class="content">
-                                    <h3>内存 使用率</h3>
-                                    <canvas id="memory-chart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-one-third">
-                        <div class="card">
-                            <div class="card-content">
-                                <div class="content">
-                                    <h3>磁盘 使用率</h3>
-                                    <canvas id="disk-chart"></canvas>
+                <div class="server-info-container mt-5">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="content">
+                                <h2 class="subtitle">服务器详细信息</h2>
+                                <div id="server-load-status">
+                                    <!-- 服务器状态将通过JavaScript动态插入 -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="server-info-container mt-5">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="content">
-                            <h2 class="subtitle">服务器详细信息</h2>
-                            <div id="server-load-status">
-                                <!-- 服务器状态将通过JavaScript动态插入 -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
     <script>
         async function fetchServerStatus() {
@@ -180,5 +176,6 @@
         // 页面加载时获取服务器状态
         window.onload = fetchServerStatus;
     </script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
